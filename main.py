@@ -4,7 +4,7 @@ import requests
 import json
 import random
 from replit import db
-from keep_alive import keep_alive
+#from keep_alive import keep_alive
 
 
 client = discord.Client()
@@ -17,36 +17,29 @@ if "responding" not in db.keys():
   db["responding"] = True
 
 def get_quote():
-  try:
     response = requests.get("https://zenquotes.io/api/random")
     json_data = json.loads(response.text)
     quote = json_data[0]['q'] + " -" + json_data[0]['a']
     return(quote)
-  except:
-    print("01")
+  
 
-def get_quote():
-  try:
+  
 def update_encouragements(encouraging_message):
-  if "encouragements" in db.keys():
-    encouragements = db["encouragements"]
-    encouragements.append(encouraging_message)
-    db["encouragements"] = encouragements
-  else:
-    db["encouragements"] = [encouraging_message]
-    except:
-    print("02")
+    if "encouragements" in db.keys():
+      encouragements = db["encouragements"]
+      encouragements.append(encouraging_message)
+      db["encouragements"] = encouragements
+    else:
+      db["encouragements"] = [encouraging_message]
 
-def get_quote():
-  try:
+
+
 def delete_encouragment(index):
   encouragements = db["encouragements"]
   if len(encouragements) > index:
     del encouragements[index]
     db["encouragements"] = encouragements
-    except:
-    print("03")
-
+  
 @client.event
 async def on_ready():
   print('We have logged in as {0.user}'.format(client))
@@ -69,7 +62,10 @@ async def on_message(message):
 
 
     if any(word in msg for word in sad_words):
-      await message.channel.send(random.choice(options))
+      try:
+        await message.channel.send(random.choice(options))
+      except:
+        print('here is where you went wrong')
 
   if msg.startswith("$new"):
     encouraging_message = msg.split("$new ",1)[1]
@@ -101,7 +97,7 @@ async def on_message(message):
       await message.channel.send("Responding is off.")
 
 
-keep_alive()
+#keep_alive()
 
 TOKEN = os.environ['TOKEN']
 client.run(TOKEN)
