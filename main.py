@@ -4,6 +4,7 @@ import random
 import requests
 import json
 from replit import db
+from keep_alive import keep_alive
 
 # iniitializing discord client
 client = discord.Client()
@@ -138,5 +139,6 @@ async def on_message(message):
         delete_sadword(index)
         await message.channel.send('sadowrd is deleted')
 
+keep_alive()
 my_secret = os.environ['TOKEN']
 client.run(my_secret)
