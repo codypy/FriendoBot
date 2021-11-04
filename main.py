@@ -51,7 +51,7 @@ async def on_message(message):
 
   msg = message.content
 
-  if msg.startswith('$inspire'):
+  if msg.startswith('!inspire'):
     quote = get_quote()
     await message.channel.send(quote)
 
@@ -62,32 +62,29 @@ async def on_message(message):
 
 
     if any(word in msg for word in sad_words):
-      try:
         await message.channel.send(random.choice(options))
-      except:
-        print('here is where you went wrong')
 
-  if msg.startswith("$new"):
-    encouraging_message = msg.split("$new ",1)[1]
+  if msg.startswith("!new"):
+    encouraging_message = msg.split("!new ",1)[1]
     update_encouragements(encouraging_message)
     await message.channel.send("New encouraging message added.")
 
-  if msg.startswith("$del"):
+  if msg.startswith("!del"):
     encouragements = []
     if "encouragements" in db.keys():
-      index = int(msg.split("$del",1)[1])
+      index = int(msg.split("!del",1)[1])
       delete_encouragment(index)
       encouragements = db["encouragements"]
     await message.channel.send(encouragements)
 
-  if msg.startswith("$list"):
+  if msg.startswith("!list"):
     encouragements = []
     if "encouragements" in db.keys():
       encouragements = db["encouragements"]
     await message.channel.send(encouragements)
 
-  if msg.startswith("$responding"):
-    value = msg.split("$responding ",1)[1]
+  if msg.startswith("!responding"):
+    value = msg.split("!responding ",1)[1]
 
     if value.lower() == "true":
       db["responding"] = True
